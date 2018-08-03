@@ -5,6 +5,6 @@ Trying to recreate the iOS 11 App Store card animation.
 * React-Native
 * ESLint
 
-## Goal  
+## Main goal  
 The main goal with the project is to recreate this animation:  
 ![Animation GIF](https://media.giphy.com/media/3Xw9PPwQdy9j4Pge4I/giphy.gif)
