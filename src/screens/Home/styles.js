@@ -3,17 +3,27 @@ import { StyleSheet } from 'react-native';
 export default StyleSheet.create({
   container: {
     flex: 1,
-    justifyContent: 'center',
+    backgroundColor: '#fff',
     alignItems: 'center',
-    backgroundColor: '#F5FCFF',
+    justifyContent: 'center',
   },
-  welcome: {
-    fontSize: 36,
-    margin: 10,
+  card: {
+    flex: 1,
+    height: null,
+    width: null,
+    resizeMode: 'cover',
+    padding: 20,
+    justifyContent: 'flex-end',
+    shadowColor: '#222',
+    shadowOffset: { width: 0, height: 7.5 },
+    shadowRadius: 10,
+    shadowOpacity: 0.5,
   },
-  instructions: {
-    textAlign: 'center',
-    color: '#333333',
-    marginBottom: 5,
+  cardText: {
+    color: 'white',
+    fontSize: 40,
+    textShadowColor: 'rgba(0, 0, 0, 0.3)',
+    textShadowOffset: { width: -1, height: 1 },
+    textShadowRadius: 5,
   },
 });
