@@ -270,6 +270,18 @@ export default class App extends Component {
                 activeImageStyle,
               ]}
             />
+            <Text
+              isBlack
+              style={[
+                styles.cardText,
+                {
+                  bottom: 45,
+                  left: 25,
+                },
+              ]}
+            >
+              {activeImage ? activeImage.text : ''}
+            </Text>
             <TouchableWithoutFeedback onPress={() => this.closeImage()}>
               <Animated.View
                 style={[
@@ -292,19 +304,19 @@ export default class App extends Component {
                 minHeight: SCREEN_HEIGHT / 2,
                 zIndex: 1000,
                 backgroundColor: 'white',
-                padding: 20,
+                padding: 25,
               },
               animatedContentStyle,
             ]}
           >
-            <Text style={{ fontSize: 24, paddingBottom: 10 }}>
-              {'Bacon Ipsum'}
-            </Text>
-            <Text>
+            <Text isBold style={{ fontSize: 18, paddingBottom: 12.5 }}>
               Bacon ipsum dolor amet hamburger pork loin ground round cow beef
-              spare ribs. Bresaola andouille beef ribeye turducken t-bone
-              sausage. Pork belly corned beef rump strip steak ball tip sausage
-              doner swine shankle frankfurter pork chop.
+              spare ribs.
+            </Text>
+            <Text style={{ fontSize: 18 }}>
+              Bresaola andouille beef ribeye turducken t-bone sausage. Pork
+              belly corned beef rump strip steak ball tip sausage doner swine
+              shankle frankfurter pork chop.
             </Text>
           </Animated.View>
         </ScrollView>
