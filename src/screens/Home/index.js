@@ -1,10 +1,12 @@
 import React, { Component } from 'react';
 import {
   View,
+  Dimensions,
   ScrollView,
   Image,
   TouchableWithoutFeedback,
   Animated,
+  Easing,
   SafeAreaView,
   StyleSheet,
 } from 'react-native';
@@ -16,6 +18,9 @@ const images = [
   { id: 1, src: Images.nyc, text: 'EXPLORE NEW YORK' },
   { id: 2, src: Images.candy, text: 'BEST OF APP STORE' },
 ];
+
+const SCREEN_WIDTH = Dimensions.get('window').width;
+const SCREEN_HEIGHT = Dimensions.get('window').height;
 
 export default class App extends Component {
   constructor() {
@@ -31,6 +36,9 @@ export default class App extends Component {
     this.position = new Animated.ValueXY();
     this.dimensions = new Animated.ValueXY();
     this.animation = new Animated.Value(0);
+    this.borderRadius = new Animated.Value(20);
+    this.cardHeight = new Animated.Value(SCREEN_HEIGHT - 200);
+    this.cardWidth = new Animated.Value(SCREEN_WIDTH);
     this.activeImageStyle = null;
   }
 
@@ -60,23 +68,42 @@ export default class App extends Component {
             Animated.parallel([
               Animated.timing(this.position.x, {
                 toValue: dPageX,
-                duration: 300,
+                easing: Easing.back(),
+                duration: 250,
               }),
               Animated.timing(this.position.y, {
                 toValue: dPageY,
-                duration: 300,
+                easing: Easing.back(),
+                duration: 250,
               }),
               Animated.timing(this.dimensions.x, {
                 toValue: dWidth,
-                duration: 300,
+                easing: Easing.back(),
+                duration: 250,
               }),
               Animated.timing(this.dimensions.y, {
                 toValue: dHeight,
-                duration: 300,
+                easing: Easing.back(),
+                duration: 250,
+              }),
+              Animated.timing(this.cardWidth, {
+                toValue: dWidth,
+                easing: Easing.back(),
+                duration: 250,
+              }),
+              Animated.timing(this.cardHeight, {
+                toValue: dHeight,
+                easing: Easing.back(),
+                duration: 250,
+              }),
+              Animated.timing(this.borderRadius, {
+                toValue: 0,
+                easing: Easing.back(),
+                duration: 250,
               }),
               Animated.timing(this.animation, {
                 toValue: 1,
-                duration: 300,
+                duration: 250,
               }),
             ]).start();
           });
@@ -89,18 +116,37 @@ export default class App extends Component {
     Animated.parallel([
       Animated.timing(this.position.x, {
         toValue: this.oldPosition.x,
-        duration: 300,
+        easing: Easing.back(),
+        duration: 250,
       }),
       Animated.timing(this.position.y, {
         toValue: this.oldPosition.y,
+        easing: Easing.back(),
         duration: 250,
       }),
       Animated.timing(this.dimensions.x, {
         toValue: this.oldPosition.width,
+        easing: Easing.back(),
         duration: 250,
       }),
       Animated.timing(this.dimensions.y, {
         toValue: this.oldPosition.height,
+        easing: Easing.back(),
+        duration: 250,
+      }),
+      Animated.timing(this.cardWidth, {
+        toValue: SCREEN_WIDTH,
+        easing: Easing.back(),
+        duration: 250,
+      }),
+      Animated.timing(this.cardHeight, {
+        toValue: SCREEN_HEIGHT - 200,
+        easing: Easing.back(),
+        duration: 250,
+      }),
+      Animated.timing(this.borderRadius, {
+        toValue: 20,
+        easing: Easing.back(),
         duration: 250,
       }),
       Animated.timing(this.animation, {
@@ -120,6 +166,12 @@ export default class App extends Component {
       height: this.dimensions.y,
       left: this.position.x,
       top: this.position.y,
+      borderRadius: this.borderRadius,
+    };
+
+    const animatedContainerStyle = {
+      width: this.cardWidth,
+      height: this.cardHeight,
     };
 
     const animatedContentY = this.animation.interpolate({
@@ -158,7 +210,9 @@ export default class App extends Component {
               onPress={() => this.openImage(index)}
               key={image.id}
             >
-              <Animated.View style={styles.cardContainer}>
+              <Animated.View
+                style={[styles.cardContainer, animatedContainerStyle]}
+              >
                 <Image
                   ref={image => {
                     this.allImages[index] = image;
@@ -211,6 +265,7 @@ export default class App extends Component {
               </Animated.View>
             </TouchableWithoutFeedback>
           </View>
+          {/*
           <Animated.View
             style={[
               {
@@ -233,6 +288,7 @@ export default class App extends Component {
               doner swine shankle frankfurter pork chop.
             </Text>
           </Animated.View>
+          */}
         </View>
       </SafeAreaView>
     );

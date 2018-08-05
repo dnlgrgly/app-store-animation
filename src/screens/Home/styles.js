@@ -1,6 +1,5 @@
 import { StyleSheet, Dimensions } from 'react-native';
 
-const SCREEN_WIDTH = Dimensions.get('window').width;
 const SCREEN_HEIGHT = Dimensions.get('window').height;
 
 export default StyleSheet.create({
@@ -18,8 +17,6 @@ export default StyleSheet.create({
     borderRadius: 20,
   },
   cardContainer: {
-    height: SCREEN_HEIGHT - 200,
-    width: SCREEN_WIDTH,
     shadowColor: '#222',
     shadowOffset: { width: 0, height: 7.5 },
     shadowRadius: 10,
