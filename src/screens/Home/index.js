@@ -145,6 +145,8 @@ export default class App extends Component {
       opacity: this.animation,
     };
 
+    const { activeImage } = this.state;
+
     return (
       <SafeAreaView style={{ flex: 1 }}>
         <ScrollView style={{ flex: 1 }}>
@@ -158,7 +160,9 @@ export default class App extends Component {
             >
               <Animated.View style={styles.cardContainer}>
                 <Image
-                  ref={image => (this.allImages[index] = image)}
+                  ref={image => {
+                    this.allImages[index] = image;
+                  }}
                   source={image.src}
                   style={styles.card}
                 />
@@ -171,16 +175,16 @@ export default class App extends Component {
         </ScrollView>
         <View
           style={StyleSheet.absoluteFill}
-          pointerEvents={this.state.activeImage ? 'auto' : 'none'}
+          pointerEvents={activeImage ? 'auto' : 'none'}
         >
           <View
             style={{ flex: 2, zIndex: 1001 }}
-            ref={view => (this.viewImage = view)}
+            ref={view => {
+              this.viewImage = view;
+            }}
           >
             <Animated.Image
-              source={
-                this.state.activeImage ? this.state.activeImage.src : null
-              }
+              source={activeImage ? activeImage.src : null}
               style={[
                 {
                   resizeMode: 'cover',
@@ -220,8 +224,7 @@ export default class App extends Component {
             ]}
           >
             <Text style={{ fontSize: 24, paddingBottom: 10 }}>
-              Bacon Ipsum
-{' '}
+              {'Bacon Ipsum'}
             </Text>
             <Text>
               Bacon ipsum dolor amet hamburger pork loin ground round cow beef

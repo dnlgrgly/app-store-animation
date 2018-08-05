@@ -18,7 +18,7 @@ export default StyleSheet.create({
     borderRadius: 20,
   },
   cardContainer: {
-    height: SCREEN_HEIGHT - 150,
+    height: SCREEN_HEIGHT - 200,
     width: SCREEN_WIDTH,
     shadowColor: '#222',
     shadowOffset: { width: 0, height: 7.5 },
@@ -33,7 +33,7 @@ export default StyleSheet.create({
     textShadowOffset: { width: -1, height: 1 },
     textShadowRadius: 5,
     position: 'absolute',
-    top: SCREEN_HEIGHT / 1.75,
+    top: SCREEN_HEIGHT / 2,
     left: 45,
   },
 });
