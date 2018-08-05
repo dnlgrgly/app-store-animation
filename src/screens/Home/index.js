@@ -40,6 +40,8 @@ export default class App extends Component {
     this.cardHeight = new Animated.Value(SCREEN_HEIGHT - 200);
     this.cardWidth = new Animated.Value(SCREEN_WIDTH);
     this.activeImageStyle = null;
+    this.momentumCount = 1;
+    this.direction = '';
   }
 
   openImage = index => {
@@ -68,42 +70,43 @@ export default class App extends Component {
             Animated.parallel([
               Animated.timing(this.position.x, {
                 toValue: dPageX,
-                easing: Easing.back(),
-                duration: 250,
+                easing: Easing.back(1),
+                duration: 350,
               }),
               Animated.timing(this.position.y, {
                 toValue: dPageY,
-                easing: Easing.back(),
-                duration: 250,
+                easing: Easing.back(1),
+                duration: 350,
               }),
               Animated.timing(this.dimensions.x, {
                 toValue: SCREEN_WIDTH,
-                easing: Easing.back(),
-                duration: 250,
+                easing: Easing.back(1),
+                duration: 350,
               }),
               Animated.timing(this.dimensions.y, {
                 toValue: SCREEN_HEIGHT - 200,
-                easing: Easing.back(),
-                duration: 250,
+                easing: Easing.back(1),
+                duration: 350,
               }),
               Animated.timing(this.cardWidth, {
                 toValue: SCREEN_WIDTH,
-                easing: Easing.back(),
-                duration: 250,
+                easing: Easing.back(1),
+                duration: 350,
               }),
               Animated.timing(this.cardHeight, {
                 toValue: SCREEN_HEIGHT - 200,
-                easing: Easing.back(),
-                duration: 250,
+                easing: Easing.back(1),
+                duration: 350,
               }),
               Animated.timing(this.borderRadius, {
                 toValue: 0,
-                easing: Easing.back(),
-                duration: 250,
+                easing: Easing.back(1),
+                duration: 350,
               }),
               Animated.timing(this.animation, {
                 toValue: 1,
-                duration: 250,
+                easing: Easing.back(1),
+                duration: 350,
               }),
             ]).start();
           });
@@ -116,42 +119,43 @@ export default class App extends Component {
     Animated.parallel([
       Animated.timing(this.position.x, {
         toValue: this.oldPosition.x,
-        easing: Easing.back(),
-        duration: 250,
+        easing: Easing.back(1),
+        duration: 350,
       }),
       Animated.timing(this.position.y, {
         toValue: this.oldPosition.y,
-        easing: Easing.back(),
-        duration: 250,
+        easing: Easing.back(1),
+        duration: 350,
       }),
       Animated.timing(this.dimensions.x, {
         toValue: this.oldPosition.width,
-        easing: Easing.back(),
-        duration: 250,
+        easing: Easing.back(1),
+        duration: 350,
       }),
       Animated.timing(this.dimensions.y, {
         toValue: this.oldPosition.height,
-        easing: Easing.back(),
-        duration: 250,
+        easing: Easing.back(1),
+        duration: 350,
       }),
       Animated.timing(this.cardWidth, {
         toValue: SCREEN_WIDTH,
-        easing: Easing.back(),
-        duration: 250,
+        easing: Easing.back(1),
+        duration: 350,
       }),
       Animated.timing(this.cardHeight, {
         toValue: SCREEN_HEIGHT - 200,
-        easing: Easing.back(),
-        duration: 250,
+        easing: Easing.back(1),
+        duration: 350,
       }),
       Animated.timing(this.borderRadius, {
         toValue: 20,
-        easing: Easing.back(),
-        duration: 250,
+        easing: Easing.back(1),
+        duration: 350,
       }),
       Animated.timing(this.animation, {
         toValue: 0,
-        duration: 250,
+        easing: Easing.back(1),
+        duration: 350,
       }),
     ]).start(() => {
       this.setState({
@@ -202,9 +206,6 @@ export default class App extends Component {
     return (
       <SafeAreaView style={{ flex: 1 }}>
         <ScrollView style={{ flex: 1 }}>
-          <Text isBold style={{ padding: 20, paddingBottom: 0, fontSize: 34 }}>
-            Demo card
-          </Text>
           {images.map((image, index) => (
             <TouchableWithoutFeedback
               onPress={() => this.openImage(index)}
@@ -228,10 +229,29 @@ export default class App extends Component {
           ))}
         </ScrollView>
         <ScrollView
+          ref={view => {
+            this.scrollContent = view;
+          }}
           style={StyleSheet.absoluteFill}
           pointerEvents={activeImage ? 'auto' : 'none'}
-          onScroll={() => console.log('onScroll')}
-          onMomentumScrollBegin={() => this.closeImage()}
+          scrollEventThrottle={1}
+          onScroll={event => {
+            const currentOffset = event.nativeEvent.contentOffset.y;
+            this.direction = currentOffset > this.offset ? 'down' : 'up';
+            this.offset = currentOffset;
+          }}
+          onScrollBeginDrag={() => {
+            if (this.direction === 'down') this.momentumCount = 0;
+          }}
+          onMomentumScrollBegin={() => {
+            if (this.direction === 'up') {
+              this.momentumCount += 1;
+              if (this.momentumCount >= 2) {
+                this.closeImage();
+                this.momentumCount = 1;
+              }
+            }
+          }}
         >
           <View
             style={{ flex: 2, zIndex: 1001 }}
