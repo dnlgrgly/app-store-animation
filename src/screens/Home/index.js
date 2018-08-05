@@ -77,22 +77,22 @@ export default class App extends Component {
                 duration: 250,
               }),
               Animated.timing(this.dimensions.x, {
-                toValue: dWidth,
+                toValue: SCREEN_WIDTH,
                 easing: Easing.back(),
                 duration: 250,
               }),
               Animated.timing(this.dimensions.y, {
-                toValue: dHeight,
+                toValue: SCREEN_HEIGHT - 200,
                 easing: Easing.back(),
                 duration: 250,
               }),
               Animated.timing(this.cardWidth, {
-                toValue: dWidth,
+                toValue: SCREEN_WIDTH,
                 easing: Easing.back(),
                 duration: 250,
               }),
               Animated.timing(this.cardHeight, {
-                toValue: dHeight,
+                toValue: SCREEN_HEIGHT - 200,
                 easing: Easing.back(),
                 duration: 250,
               }),
@@ -227,9 +227,11 @@ export default class App extends Component {
             </TouchableWithoutFeedback>
           ))}
         </ScrollView>
-        <View
+        <ScrollView
           style={StyleSheet.absoluteFill}
           pointerEvents={activeImage ? 'auto' : 'none'}
+          onScroll={() => console.log('onScroll')}
+          onMomentumScrollBegin={() => this.closeImage()}
         >
           <View
             style={{ flex: 2, zIndex: 1001 }}
@@ -244,8 +246,6 @@ export default class App extends Component {
                   resizeMode: 'cover',
                   top: 0,
                   left: 0,
-                  height: null,
-                  width: null,
                 },
                 activeImageStyle,
               ]}
@@ -265,15 +265,14 @@ export default class App extends Component {
               </Animated.View>
             </TouchableWithoutFeedback>
           </View>
-          {/*
           <Animated.View
             style={[
               {
                 flex: 1,
+                minHeight: SCREEN_HEIGHT / 2,
                 zIndex: 1000,
                 backgroundColor: 'white',
                 padding: 20,
-                paddingTop: 50,
               },
               animatedContentStyle,
             ]}
@@ -288,8 +287,7 @@ export default class App extends Component {
               doner swine shankle frankfurter pork chop.
             </Text>
           </Animated.View>
-          */}
-        </View>
+        </ScrollView>
       </SafeAreaView>
     );
   }
